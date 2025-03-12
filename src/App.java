@@ -14,35 +14,20 @@ public class App {
     public static final String ANSI_CYAN   = "\u001B[36m";
     public static final String ANSI_WHITE  = "\u001B[37m";
 
-    private ArrayList<String> delimiters = new ArrayList<String>() {{
-        add(",");
-        add("!");
-        add(".");
-        add("?");
-    }};
+    /**ArrayList Containing Verbs -- Red */
+    private final ArrayList<String> verbs;
+    
+    /**ArrayList Containing Nouns -- Yellow*/
+    private final ArrayList<String> nouns;
 
-    private ArrayList<String> madlib = new ArrayList<String>();
-
-    /**ArrayList Containing Verbs */
-    private ArrayList<String> verbs;
-
-    /**ArrayList Containing Nouns */
-    private ArrayList<String> nouns;
-
-    /**ArrayList Containing Adjectives */
-    private ArrayList<String> adjectives;
+    /**ArrayList Containing Adjectives -- Blue*/
+    private final ArrayList<String> adjectives;
 
     /**Delimiters */
 
     public static void main(String[] args) throws Exception {
         App app = new App();
-        
-        var madlib = app.getMadLibArrayList();
-        for (var word : madlib) {
-            System.out.println(word);
-        }
-
-        System.out.println(ANSI_RED + "TEST");
+        app.printWithColor();
     }
 
     public App() throws IOException {
@@ -68,36 +53,97 @@ public class App {
      * @return String containing the 
      */
     public String getMadLib() {
-        return "In the town of Techville, a group of friends—Maya, Leo, and Jay—were known as The Code Squad. They loved coding and solving problems using their computers. One afternoon, while they were in the school's coding club, the lights flickered. Then—BOOM!—the entire town lost power! The teacher checked her phone. “It looks like a virus has shut down the city's power grid,” she said. “Without electricity, hospitals, traffic lights, and even the water pumps won't work!” Maya's eyes widened. “We have to do something!” Leo pulled out his laptop. “If the virus is in the power grid, we might be able to write a program to track it down.” Jay grinned. “And if we find it, we can create an antivirus to stop it!” The Code Squad got to work. They connected to the emergency backup server at the school and used their programming skills to scan the system. “There it is!” Maya pointed at the screen. “The virus is hiding in the main control code.” Leo typed fast. “I'm writing a program to isolate the virus.” Jay added, “And I'll program a firewall to keep it from coming back!” After a few tense minutes, they uploaded their code. BEEP! BEEP! BEEP! The system flickered to life. Streetlights turned on. The fans in the school whirred. The town's power was back! The mayor called to thank them. “You kids saved Techville!” Maya, Leo, and Jay high-fived. “Just another mission for The Code Squad!” And from that day on, they knew that with computer science, they could solve any problem—even saving the world.";
+        return "In the town of Techville, a group of friends—Maya, Leo, and Jay—were known as The Code Squad. They loved coding and solving problems using their computers.\n" + //
+                        "\n" + //
+                        "One afternoon, while they were in the school's coding club, the lights flickered. Then—BOOM!—the entire town lost power!\n" + //
+                        "\n" + //
+                        "The teacher checked her phone. “It looks like a virus has shut down the city's power grid,” she said. “Without electricity, hospitals, traffic lights, and even the water pumps won't work!”\n" + //
+                        "\n" + //
+                        "Maya's eyes widened. “We have to do something!”\n" + //
+                        "\n" + //
+                        "Leo pulled out his laptop. “If the virus is in the power grid, we might be able to write a program to track it down.”\n" + //
+                        "\n" + //
+                        "Jay grinned. “And if we find it, we can create an antivirus to stop it!”\n" + //
+                        "\n" + //
+                        "The Code Squad got to work. They connected to the emergency backup server at the school and used their programming skills to scan the system.\n" + //
+                        "\n" + //
+                        "“There it is!” Maya pointed at the screen. “The virus is hiding in the main control code.”\n" + //
+                        "\n" + //
+                        "Leo typed fast. “I'm writing a program to isolate the virus.”\n" + //
+                        "\n" + //
+                        "Jay added, “And I'll program a firewall to keep it from coming back!”\n" + //
+                        "\n" + //
+                        "After a few tense minutes, they uploaded their code.\n" + //
+                        "\n" + //
+                        "BEEP! BEEP! BEEP!\n" + //
+                        "\n" + //
+                        "The system flickered to life. Streetlights turned on. The fans in the school whirred. The town's power was back!\n" + //
+                        "\n" + //
+                        "The mayor called to thank them. “You kids saved Techville!”\n" + //
+                        "\n" + //
+                        "Maya, Leo, and Jay high-fived. “Just another mission for The Code Squad!”\n" + //
+                        "\n" + //
+                        "And from that day on, they knew that with computer science, they could solve any problem—even saving the world.";
     }
 
     public ArrayList<String> getMadLibArrayList() {
         String madlib = getMadLib();
-
-        System.out.println(madlib);
-        
         ArrayList<String> madlibArray = new ArrayList<String>();
-
-        while (true) {
-            int nextSpace = madlib.indexOf(" ");
-            int next = nextSpace;
-            for (String delimiter : delimiters) {
-                int nextDelimiter = madlib.indexOf(delimiter);
-                if (nextDelimiter != -1) {
-                    if (nextDelimiter + 1 == nextSpace) next = nextDelimiter;
+    
+        StringBuilder currentWord = new StringBuilder();
+        for (int i = 0; i < madlib.length(); i++) {
+            char currentChar = madlib.charAt(i);
+    
+            // Check if the character is a letter or number (part of a word)
+            if (Character.isLetterOrDigit(currentChar)) {
+                currentWord.append(currentChar);  // Add letter to the current word
+            } else {
+                // If we find a space or punctuation mark, we treat it as a delimiter
+                if (currentWord.length() > 0) {
+                    madlibArray.add(currentWord.toString());  // Add the word to the list
+                    currentWord.setLength(0);  // Clear the current word
+                }
+    
+                // If it's a punctuation mark, we add it as a separate item
+                if (!Character.isWhitespace(currentChar)) {
+                    madlibArray.add(String.valueOf(currentChar));
                 }
             }
-
-            madlibArray.add(madlib.substring(0, next));
-            System.out.println(madlibArray);
-            madlib = madlib.substring(next);
-
-            if (madlib.length() == 0) {
-                break;
-            }
         }
-
-
+    
+        // Add any remaining word at the end (if the madlib doesn't end with punctuation)
+        if (currentWord.length() > 0) {
+            madlibArray.add(currentWord.toString());
+        }
+    
         return madlibArray;
     }
+
+    public void printWithColor() {
+        var madlib = getMadLibArrayList();
+
+        for (String string : madlib) {
+            boolean found = false;
+            for (var noun : nouns) {
+                if (string.toLowerCase().equals(noun) && !found) {
+                    System.out.print(ANSI_YELLOW + string);
+                    found = true;
+                }
+            }
+            for (var verb : verbs) {
+                if (string.toLowerCase().equals(verb) && !found) {
+                    System.out.print(ANSI_RED + string);
+                    found = true;
+                }
+            }
+            for (var adjective : adjectives) {
+                if (string.toLowerCase().equals(adjective) && !found) {
+                    System.out.print(ANSI_BLUE + string);
+                    found = true;
+                }
+            }
+            if (!found) System.out.print(ANSI_GREEN + string);
+        }
+    }
+    
 }
