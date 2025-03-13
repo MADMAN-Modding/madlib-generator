@@ -57,21 +57,21 @@ public class App {
                         "\n" + //
                         "One afternoon, while they were in the school's coding club, the lights flickered. Then—BOOM!—the entire town lost power!\n" + //
                         "\n" + //
-                        "The teacher checked her phone. “It looks like a virus has shut down the city's power grid,” she said. “Without electricity, hospitals, traffic lights, and even the water pumps won't work!”\n" + //
+                        "The teacher checked her phone. \"It looks like a virus has shut down the city's power grid,\" she said. \"Without electricity, hospitals, traffic lights, and even the water pumps won't work!\"\n" + //
                         "\n" + //
-                        "Maya's eyes widened. “We have to do something!”\n" + //
+                        "Maya's eyes widened. \"We have to do something!\"\n" + //
                         "\n" + //
-                        "Leo pulled out his laptop. “If the virus is in the power grid, we might be able to write a program to track it down.”\n" + //
+                        "Leo pulled out his laptop. \"If the virus is in the power grid, we might be able to write a program to track it down.\"\n" + //
                         "\n" + //
-                        "Jay grinned. “And if we find it, we can create an antivirus to stop it!”\n" + //
+                        "Jay grinned. \"And if we find it, we can create an antivirus to stop it!\"\n" + //
                         "\n" + //
                         "The Code Squad got to work. They connected to the emergency backup server at the school and used their programming skills to scan the system.\n" + //
                         "\n" + //
-                        "“There it is!” Maya pointed at the screen. “The virus is hiding in the main control code.”\n" + //
+                        "\"There it is!\" Maya pointed at the screen. \"The virus is hiding in the main control code.\"\n" + //
                         "\n" + //
-                        "Leo typed fast. “I'm writing a program to isolate the virus.”\n" + //
+                        "Leo typed fast. \"I'm writing a program to isolate the virus.\"\n" + //
                         "\n" + //
-                        "Jay added, “And I'll program a firewall to keep it from coming back!”\n" + //
+                        "Jay added, \"And I'll program a firewall to keep it from coming back!\"\n" + //
                         "\n" + //
                         "After a few tense minutes, they uploaded their code.\n" + //
                         "\n" + //
@@ -79,71 +79,93 @@ public class App {
                         "\n" + //
                         "The system flickered to life. Streetlights turned on. The fans in the school whirred. The town's power was back!\n" + //
                         "\n" + //
-                        "The mayor called to thank them. “You kids saved Techville!”\n" + //
+                        "The mayor called to thank them. \"You kids saved Techville!\"\n" + //
                         "\n" + //
-                        "Maya, Leo, and Jay high-fived. “Just another mission for The Code Squad!”\n" + //
+                        "Maya, Leo, and Jay high-fived. \"Just another mission for The Code Squad!\"\n" + //
                         "\n" + //
                         "And from that day on, they knew that with computer science, they could solve any problem—even saving the world.";
     }
 
     public ArrayList<String> getMadLibArrayList() {
-        String madlib = getMadLib();
-        ArrayList<String> madlibArray = new ArrayList<String>();
+        String madLib = getMadLib();
+        ArrayList<String> madLibArray = new ArrayList<String>();
     
         StringBuilder currentWord = new StringBuilder();
-        for (int i = 0; i < madlib.length(); i++) {
-            char currentChar = madlib.charAt(i);
+        for (int i = 0; i < madLib.length(); i++) {
+            char currentChar = madLib.charAt(i);
     
             // Check if the character is a letter or number (part of a word)
-            if (Character.isLetterOrDigit(currentChar)) {
+            if (!Character.isWhitespace(currentChar)) {
                 currentWord.append(currentChar);  // Add letter to the current word
             } else {
-                // If we find a space or punctuation mark, we treat it as a delimiter
-                if (currentWord.length() > 0) {
-                    madlibArray.add(currentWord.toString());  // Add the word to the list
-                    currentWord.setLength(0);  // Clear the current word
-                }
-    
                 // If it's a punctuation mark, we add it as a separate item
                 if (!Character.isWhitespace(currentChar)) {
-                    madlibArray.add(String.valueOf(currentChar));
+                    currentWord.append(currentChar);
+                }
+
+                // If we find a space or punctuation mark, we treat it as a delimiter
+                if (currentWord.length() > 0) {
+                    madLibArray.add(currentWord.toString());  // Add the word to the list
+                    currentWord.setLength(0);  // Clear the current word
                 }
             }
         }
     
         // Add any remaining word at the end (if the madlib doesn't end with punctuation)
         if (currentWord.length() > 0) {
-            madlibArray.add(currentWord.toString());
+            madLibArray.add(currentWord.toString());
         }
     
-        return madlibArray;
+        return madLibArray;
     }
 
     public void printWithColor() {
-        var madlib = getMadLibArrayList();
+        var madLib = getMadLibArrayList();
 
-        for (String string : madlib) {
+        for (int i = 0; i < madLib.size(); i++) {
+            var word = madLib.get(i);
+            
+            String wordNoPunctuation = "";
+
+            for (int j = 0; j < word.length(); j++) {
+                String edDetect = "";
+
+                if (word.length() - j > 2) {
+                    edDetect += word.charAt(j);
+                    edDetect += word.charAt(j+1);
+                }
+
+                if (Character.isLetterOrDigit(word.charAt(j)) && edDetect != "ed") {
+                    wordNoPunctuation += word.charAt(j);
+                } else {
+                    break;
+                }
+            }
+
             boolean found = false;
             for (var noun : nouns) {
-                if (string.toLowerCase().equals(noun) && !found) {
-                    System.out.print(ANSI_YELLOW + string);
+                if (wordNoPunctuation.toLowerCase().equals(noun) && !found) {
+                    System.out.print(ANSI_YELLOW + word);
                     found = true;
                 }
             }
             for (var verb : verbs) {
-                if (string.toLowerCase().equals(verb) && !found) {
-                    System.out.print(ANSI_RED + string);
+                if (wordNoPunctuation.toLowerCase().equals(verb) && !found) {
+                    System.out.print(ANSI_RED + word);
                     found = true;
                 }
             }
             for (var adjective : adjectives) {
-                if (string.toLowerCase().equals(adjective) && !found) {
-                    System.out.print(ANSI_BLUE + string);
+                if (wordNoPunctuation.toLowerCase().equals(adjective) && !found) {
+                    System.out.print(ANSI_BLUE + word);
                     found = true;
                 }
             }
-            if (!found) System.out.print(ANSI_GREEN + string);
+            if (!found) System.out.print(ANSI_GREEN + word);
+
+            System.out.print(" ");
         }
+
+        System.out.println();
     }
-    
 }
