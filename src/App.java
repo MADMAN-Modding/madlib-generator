@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class App {
+    // Colors for different words
     public static final String ANSI_RESET  = "\u001B[0m";
     public static final String ANSI_BLACK  = "\u001B[30m";
     public static final String ANSI_RED    = "\u001B[31m";
@@ -91,8 +92,6 @@ public class App {
         String madLib = getMadLib();
         ArrayList<String> madLibArray = new ArrayList<String>();
     
-        var random = new Random();
-
         StringBuilder currentWord = new StringBuilder();
         for (int i = 0; i < madLib.length(); i++) {
             char currentChar = madLib.charAt(i);
@@ -146,10 +145,12 @@ public class App {
                 }
             }
 
+            // If the word was found
             boolean found = false;
             for (var noun : nouns) {
                 if (wordNoPunctuation.toLowerCase().equals(noun) && !found) {
 
+                    // 30% Chance it changes the word
                     if (Math.random() > 0.7) madLib.set(i, nouns.get(random.nextInt(nouns.size())));
                     word = madLib.get(i);
                     System.out.print(ANSI_YELLOW + word);
@@ -158,6 +159,8 @@ public class App {
             }
             for (var verb : verbs) {
                 if (wordNoPunctuation.toLowerCase().equals(verb) && !found) {
+
+                    // 30% Chance it changes the word
                     if (Math.random() > 0.7) madLib.set(i, nouns.get(random.nextInt(nouns.size())));
                     word = madLib.get(i);
                     System.out.print(ANSI_RED + word);
@@ -166,6 +169,8 @@ public class App {
             }
             for (var adjective : adjectives) {
                 if (wordNoPunctuation.toLowerCase().equals(adjective) && !found) {
+
+                    // 30% Chance it changes the word
                     if (Math.random() > 0.7) madLib.set(i, nouns.get(random.nextInt(nouns.size())));
                     word = madLib.get(i);
                     System.out.print(ANSI_BLUE + word);
@@ -174,9 +179,11 @@ public class App {
             }
             if (!found) System.out.print(ANSI_GREEN + word);
 
+            // Adds a space after each word
             System.out.print(" ");
         }
 
+        // Print a new line, idk why I didn't just use \n
         System.out.println();
     }
 }
