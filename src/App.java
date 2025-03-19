@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class App {
     public static final String ANSI_RESET  = "\u001B[0m";
@@ -90,6 +91,8 @@ public class App {
         String madLib = getMadLib();
         ArrayList<String> madLibArray = new ArrayList<String>();
     
+        var random = new Random();
+
         StringBuilder currentWord = new StringBuilder();
         for (int i = 0; i < madLib.length(); i++) {
             char currentChar = madLib.charAt(i);
@@ -121,6 +124,7 @@ public class App {
 
     public void printWithColor() {
         var madLib = getMadLibArrayList();
+        var random = new Random();
 
         for (int i = 0; i < madLib.size(); i++) {
             var word = madLib.get(i);
@@ -145,18 +149,25 @@ public class App {
             boolean found = false;
             for (var noun : nouns) {
                 if (wordNoPunctuation.toLowerCase().equals(noun) && !found) {
+
+                    if (Math.random() > 0.7) madLib.set(i, nouns.get(random.nextInt(nouns.size())));
+                    word = madLib.get(i);
                     System.out.print(ANSI_YELLOW + word);
                     found = true;
                 }
             }
             for (var verb : verbs) {
                 if (wordNoPunctuation.toLowerCase().equals(verb) && !found) {
+                    if (Math.random() > 0.7) madLib.set(i, nouns.get(random.nextInt(nouns.size())));
+                    word = madLib.get(i);
                     System.out.print(ANSI_RED + word);
                     found = true;
                 }
             }
             for (var adjective : adjectives) {
                 if (wordNoPunctuation.toLowerCase().equals(adjective) && !found) {
+                    if (Math.random() > 0.7) madLib.set(i, nouns.get(random.nextInt(nouns.size())));
+                    word = madLib.get(i);
                     System.out.print(ANSI_BLUE + word);
                     found = true;
                 }
