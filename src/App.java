@@ -161,7 +161,7 @@ public class App {
                 if (wordNoPunctuation.toLowerCase().equals(verb) && !found) {
 
                     // 30% Chance it changes the word
-                    if (Math.random() > 0.7) madLib.set(i, nouns.get(random.nextInt(verbs.size())));
+                    if (Math.random() > 0.7) madLib.set(i, verbs.get(random.nextInt(verbs.size())));
                     word = madLib.get(i);
                     System.out.print(ANSI_RED + word);
                     found = true;
@@ -171,7 +171,7 @@ public class App {
                 if (wordNoPunctuation.toLowerCase().equals(adjective) && !found) {
 
                     // 30% Chance it changes the word
-                    if (Math.random() > 0.7) madLib.set(i, nouns.get(random.nextInt(adjectives.size())));
+                    if (Math.random() > 0.7) madLib.set(i, adjectives.get(random.nextInt(adjectives.size())));
                     word = madLib.get(i);
                     System.out.print(ANSI_BLUE + word);
                     found = true;
